@@ -1,6 +1,6 @@
 // Контент сайта, выгруженный из CMS Framer (mrframe.framer.website).
 // Чтобы поправить текст или картинку — меняйте значения здесь.
-const IMG = "https://framerusercontent.com/images/";
+const IMG = "assets/img/";
 
 window.SITE = {
   name: "Вадим Кокшаров",
