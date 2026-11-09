@@ -20,6 +20,7 @@ FAV = (INJ / "favicon.html").read_text(encoding="utf-8").strip()
 TITLES = json.loads((INJ / "titles.json").read_text(encoding="utf-8"))
 MEET = (INJ / "meetmotion.html").read_text(encoding="utf-8").strip()
 TXT = (INJ / "text-overrides.html").read_text(encoding="utf-8").strip()
+TALKS = (INJ / "talks.html").read_text(encoding="utf-8").strip()
 REEL = (INJ / "showreel.html").read_text(encoding="utf-8").strip()
 IMG = SITE / "_media" / "images"
 
@@ -63,6 +64,7 @@ for h in SITE.rglob("*.html"):
     m = re.search(r'var MAP=(\{.*?\});', TXT)
     for old, new in json.loads(m.group(1)).items(): s = s.replace(old, new)
     if 'id="text-overrides"' not in s: s = s.replace("</body>", TXT + "</body>", 1)
+    if 'id="talks-js"' not in s and '>Выступления<' in s: s = s.replace("</body>", TALKS + "</body>", 1)
     if 'id="reel-js"' not in s: s = s.replace("</body>", REEL + "</body>", 1)
     h.write_text(s, encoding="utf-8")
 print("postprocess done:", len(ren), "media files converted")

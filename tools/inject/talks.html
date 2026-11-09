@@ -1,0 +1,9 @@
+<script id="talks-js">(function(){var TALKS=[["Из чего состоит 3D стиль","митап Solar"],["Как дизайн влияет на восприятие отрасли","РТУ МИРЭА"],["AI и будущее дизайна","митап Solar"],["Процессы и автоматизация в команде","Meet Motion"]];
+function card(){var ps=document.querySelectorAll('[data-framer-name="Карточка"] .framer-text');for(var i=0;i<ps.length;i++)if(ps[i].textContent.trim()==="Выступления"){return ps[i].closest('[data-framer-name="Карточка"]')}return null}
+function setText(el,t){if(!el)return;var s=el.querySelector("span.framer-text")||el.querySelector("p.framer-text")||el;if(s.textContent!==t)s.textContent=t}
+var busy=false;function apply(){if(busy)return;var c=card();if(!c)return;busy=true;try{var rows=[].slice.call(c.querySelectorAll(':scope > [data-framer-name="Строка"]'));if(!rows.length)return;
+while(rows.length<TALKS.length){var cl=rows[rows.length-1].cloneNode(true);rows[rows.length-1].after(cl);rows.push(cl)}
+for(var i=rows.length-1;i>=TALKS.length;i--){rows[i].remove();rows.pop()}
+rows.forEach(function(r,i){var cols=r.querySelectorAll(':scope > [data-framer-component-type="RichTextContainer"]');setText(cols[0],TALKS[i][0]);setText(cols[1],TALKS[i][1])})}finally{busy=false}}
+function start(){apply();var t;new MutationObserver(function(){clearTimeout(t);t=setTimeout(apply,30)}).observe(document.body,{childList:true,subtree:true,characterData:true})}
+if(document.body)start();else document.addEventListener("DOMContentLoaded",start)})();</script>
