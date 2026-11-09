@@ -1,0 +1,48 @@
+"""Apply the GitHub-copy tweaks to a fresh Framer snapshot (idempotent).
+
+Usage: python tools/postprocess.py <site_dir>
+  1. removes Framer editor bar + analytics scripts
+  2. hides the "Made in Framer" badge
+  3. adds the on-page showreel player (tools/inject/showreel.html)
+  4. optimizes media: GIF -> animated WebP (800px, q72), PNG/JPG -> WebP (q82, max 2400px);
+     animated covers keep a "?a.gif" suffix so the Framer hover override still treats them as GIFs
+"""
+import re, sys, pathlib, subprocess
+from PIL import Image
+
+SITE = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else ".")
+INJ = pathlib.Path(__file__).parent / "inject"
+BADGE = (INJ / "hide-badge.html").read_text(encoding="utf-8").strip()
+REEL = (INJ / "showreel.html").read_text(encoding="utf-8").strip()
+IMG = SITE / "_media" / "images"
+
+ren = {}
+if IMG.exists():
+    for f in sorted(IMG.iterdir()):
+        ext, before = f.suffix.lower(), f.stat().st_size
+        if ext == ".gif":
+            out = f.with_suffix(".webp"); w = Image.open(f).size[0]
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(f), "-vf", f"scale={min(w, 800)}:-1:flags=lanczos",
+                            "-c:v", "libwebp_anim", "-lossless", "0", "-q:v", "72", "-compression_level", "6", "-loop", "0", str(out)], check=True)
+            ren[f.name] = out.name + "?a.gif"
+        elif ext in (".png", ".jpg", ".jpeg"):
+            im = Image.open(f); im.load()
+            if im.size[0] > 2400: im = im.resize((2400, round(im.size[1] * 2400 / im.size[0])), Image.LANCZOS)
+            if im.mode not in ("RGB", "RGBA"): im = im.convert("RGBA" if im.mode in ("LA", "P") or "transparency" in im.info else "RGB")
+            out = f.with_suffix(".webp"); im.save(out, "WEBP", quality=82, method=6)
+            if out.stat().st_size >= before: out.unlink(); continue
+            ren[f.name] = out.name
+        else:
+            continue
+        print(f"{before/1e3:9.0f}KB -> {out.stat().st_size/1e3:8.0f}KB  {f.name}")
+        f.unlink()
+
+for h in SITE.rglob("*.html"):
+    s = h.read_text(encoding="utf-8")
+    s = s.replace("https://vimeo.com/76979871", "https://vimeo.com/330892454")
+    s = re.sub(r'<script[^>]*src="https://(?:events\.framer\.com|framer\.com/edit)[^"]*"[^>]*>\s*</script>', "", s)
+    s = re.sub(r'_media/images/([A-Za-z0-9_-]+\.(?:gif|png|jpe?g))', lambda m: "_media/images/" + ren.get(m.group(1), m.group(1)), s)
+    if 'id="hide-framer-badge"' not in s: s = s.replace("</head>", BADGE + "</head>", 1)
+    if 'id="reel-js"' not in s: s = s.replace("</body>", REEL + "</body>", 1)
+    h.write_text(s, encoding="utf-8")
+print("postprocess done:", len(ren), "media files converted")

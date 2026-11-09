@@ -1,10 +1,11 @@
 # Портфолио Вадима Кокшарова
 
-Снимок сайта [mrframe.framer.website](https://mrframe.framer.website), опубликованный на GitHub Pages.
+Сайт на GitHub Pages: https://mmmrframe.github.io/portfolio/ — основная версия.
+Копия во Framer: https://mrframe.framer.website
 
-- `index.html`, `events/*/`, `projects/*/` — страницы сайта
-- `_media/` — все картинки и шрифты в исходном качестве
+**Порядок публикации:** сначала правка публикуется здесь, затем по решению автора — во Framer.
 
-Анимации, видео и ховеры работают на скриптах Framer, которые загружаются с framerusercontent.com.
-
-Обновить снимок после правок во Framer: Actions → «Download Framer site» → Run workflow, затем скопировать содержимое ветки `framer-export` в `main`.
+- `index.html`, `events/*/`, `projects/*/` — страницы
+- `_media/` — картинки (WebP) и шрифты
+- `tools/postprocess.py` — правки поверх снимка Framer: шоурил, скрытая плашка, сжатие медиа
+- `tools/download_framer_site.py` + Actions «Download Framer site» — снимок сайта из Framer в ветку `framer-export`
