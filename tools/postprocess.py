@@ -3,18 +3,19 @@
 Usage: python tools/postprocess.py <site_dir>
   1. removes Framer editor bar + analytics scripts
   2. hides the "Made in Framer" badge
-  3. replaces the Framer favicon with the MeetMotion logo (tools/inject/favicon.html)
+  3. sets page titles and descriptions (tools/inject/titles.json), replaces the Framer favicon with the MeetMotion logo (tools/inject/favicon.html)
   4. adds the on-page showreel player (tools/inject/showreel.html)
   5. optimizes media: GIF -> animated WebP (800px, q72), PNG/JPG -> WebP (q82, max 2400px);
      animated covers keep a "?a.gif" suffix so the Framer hover override still treats them as GIFs
 """
-import re, sys, pathlib, subprocess
+import re, sys, json, html, pathlib, subprocess
 from PIL import Image
 
 SITE = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else ".")
 INJ = pathlib.Path(__file__).parent / "inject"
 BADGE = (INJ / "hide-badge.html").read_text(encoding="utf-8").strip()
 FAV = (INJ / "favicon.html").read_text(encoding="utf-8").strip()
+TITLES = json.loads((INJ / "titles.json").read_text(encoding="utf-8"))
 REEL = (INJ / "showreel.html").read_text(encoding="utf-8").strip()
 IMG = SITE / "_media" / "images"
 
@@ -44,6 +45,13 @@ for h in SITE.rglob("*.html"):
     s = s.replace("https://vimeo.com/76979871", "https://vimeo.com/330892454")
     s = re.sub(r'<script[^>]*src="https://(?:events\.framer\.com|framer\.com/edit)[^"]*"[^>]*>\s*</script>', "", s)
     s = re.sub(r'_media/images/([A-Za-z0-9_-]+\.(?:gif|png|jpe?g))', lambda m: "_media/images/" + ren.get(m.group(1), m.group(1)), s)
+    key = str(h.parent.relative_to(SITE)).replace("\\", "/").strip(".")
+    if key in TITLES:
+        t = TITLES[key] if key == "" else TITLES[key] + TITLES["_suffix"]
+        t, d = html.escape(t, quote=True), html.escape(TITLES["_description"], quote=True)
+        s = re.sub(r"<title>[^<]*</title>", f"<title>{t}</title>", s, count=1)
+        s = re.sub(r'(<meta (?:property|name)="(?:og:title|twitter:title)" content=")[^"]*"', lambda m: m.group(1) + t + '"', s)
+        s = re.sub(r'(<meta (?:property|name)="(?:description|og:description|twitter:description)" content=")[^"]*"', lambda m: m.group(1) + d + '"', s)
     s = re.sub(r'<link[^>]*href="https://framerusercontent\.com/sites/icons/[^"]*"[^>]*>', "", s)
     if "_media/favicon.png" not in s: s = s.replace("</head>", FAV + "</head>", 1)
     if 'id="hide-framer-badge"' not in s: s = s.replace("</head>", BADGE + "</head>", 1)
