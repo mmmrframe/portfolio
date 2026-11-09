@@ -41,7 +41,7 @@ with sync_playwright() as p:
         for h in pg.eval_on_selector_all("a[href]", "els => els.map(e => e.href)"):
             u = urllib.parse.urlparse(h)
             last = (u.path.rstrip("/").split("/") or [""])[-1]
-            if ":" in u.path or (re.fullmatch(r"[A-Za-z0-9_-]{9}", last) and re.search(r"[A-Z]", last) and re.search(r"\d", last)):
+            if ":" in u.path or (re.fullmatch(r"[A-Za-z0-9_-]{9}", last) and re.search(r"[A-Z]", last) and re.search(r"[a-z]", last) and last.lower() != last):
                 continue  # Framer internal id links duplicate the slug pages
             if u.netloc == HOST and u.path not in seen:
                 queue.append(u.path or "/")
