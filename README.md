@@ -8,6 +8,6 @@
 - `assets/app.js` — рендер, видео-плеер Vimeo/YouTube, лайтбокс, GIF-обложки по наведению
 - `assets/styles.css` — стили
 
-Картинки пока подгружаются с CDN Framer (`framerusercontent.com`). Если Framer-проект удалить, их нужно будет сохранить в `assets/` и поменять ссылки в `data.js`.
+Все картинки лежат в `assets/img/` (скопированы с Framer). Анимированные обложки переведены из GIF в MP4 — так они весят в 5–10 раз меньше.
 
 Чтобы опубликовать: Settings → Pages → Deploy from branch → `main` / root.

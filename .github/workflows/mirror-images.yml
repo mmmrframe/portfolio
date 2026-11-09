@@ -2,9 +2,7 @@ name: Mirror images from Framer
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ["assets/data.js", "tools/fetch_images.py", ".github/workflows/mirror-images.yml"]
+  # run manually: Actions → Mirror images from Framer → Run workflow
 
 permissions:
   contents: write

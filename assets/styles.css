@@ -336,3 +336,4 @@ body{padding-bottom:0}
 .lightbox{position:fixed;inset:0;z-index:100;background:rgba(5,5,5,.92);display:grid;place-items:center;padding:24px;cursor:zoom-out}
 .lightbox img{max-width:100%;max-height:100%;border-radius:10px}
 .dive-facts dd{white-space:pre-line}
+.preview video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}

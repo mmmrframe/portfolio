@@ -62,15 +62,26 @@
   }
 
   function card(href, cover, tab, title, text, cls = "folder") {
+    const media = /\.mp4$/i.test(cover)
+      ? `<video src="${esc(cover)}" poster="${esc(cover.replace(/\.mp4$/i, ".jpg"))}" muted loop playsinline preload="metadata"></video>`
+      : `<img src="${esc(cover)}" alt="" loading="lazy">`;
     return `<a class="${cls === "folder" ? "" : cls + " "}folder" href="${href}">
       <span class="tab">${esc(tab)}</span>
-      <div class="preview"><img src="${esc(cover)}" alt="" loading="lazy"><div class="shade"></div><span class="ovl">Открыть →</span></div>
+      <div class="preview">${media}<div class="shade"></div><span class="ovl">Открыть →</span></div>
       <h3>${esc(title)}</h3><p>${esc(text)}</p></a>`;
+  }
+  // MP4 covers: poster frame at rest, play on hover / when scrolled into view on touch
+  function videoCover(v, c) {
+    const play = on => { if (on) v.play().catch(() => {}); else v.pause(); };
+    c.addEventListener("mouseenter", () => play(true));
+    c.addEventListener("mouseleave", () => play(false));
+    c._play = play;
   }
   function wireCards(root) {
     root.querySelectorAll(".folder").forEach(c => {
-      const img = c.querySelector(".preview img");
+      const img = c.querySelector(".preview img"), v = c.querySelector(".preview video");
       if (img) gifCover(img);
+      if (v) videoCover(v, c);
       if (io) io.observe(c);
     });
   }

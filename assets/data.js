@@ -81,7 +81,7 @@ window.SITE = {
     {
       name: "SOC Forum", slug: "soc-forum", full: "Ключевое мероприятие Solar по кибербезопасности",
       desc: "Семь форумов в продакшене: наружные экраны, стилеобразующая графика площадки, продуктовая зона и интро пленарной сессии",
-      cover: IMG + "ntk1hk1X2stFdda7Zrfa7Iz6c8.gif", screens: "100+", zones: "8", visitors: "9 500",
+      cover: IMG + "ntk1hk1X2stFdda7Zrfa7Iz6c8.mp4", screens: "100+", zones: "8", visitors: "9 500",
       sections: [
         { t: "Интро пленарной сессии", d: "Главный ролик форума об искусственном интеллекте. Открывает основную сессию и задаёт тон всему дню.", n: "ИИ", c: "главная тема форума", img: IMG + "0NMHUtJ5bZvgj8E4BiJdBs7MCVA.jpg", v: "https://vimeo.com/1243638373" },
         { t: "Внешние экраны «Ломоносова»", d: "Рекламные ролики на уличных экранах, которые встречают гостей ещё на подходе к зданию.", img: IMG + "27OU39SHH2xCJDL670teKrFDJGk.jpg", v: "https://vimeo.com/1243638373" },
@@ -145,7 +145,7 @@ window.SITE = {
   projects: [
     {
       name: "B2C", slug: "b2c", title: "Реклама для массового рынка", sub: "Ролики для широкой аудитории: соцсети, digital, наружка.",
-      cover: IMG + "BxpGshgcfnxXFa5Ir4Dx1vmLkM.gif", video: "https://vimeo.com/1243438840", poster: IMG + "uhUgJBfx2txJWhWBltoC29dGE.jpg",
+      cover: IMG + "BxpGshgcfnxXFa5Ir4Dx1vmLkM.mp4", video: "https://vimeo.com/1243438840", poster: IMG + "uhUgJBfx2txJWhWBltoC29dGE.jpg",
       goal: "—", task: "—", time: "—", result: "—", team: "—",
       gallery: [IMG + "uhUgJBfx2txJWhWBltoC29dGE.jpg"],
       about: [
@@ -182,7 +182,7 @@ window.SITE = {
     },
     {
       name: "NGFW", slug: "ngfw", title: "NGFW обретает форму", sub: "Продуктовый интро-ролик Solar NGFW.",
-      cover: IMG + "1Q4S8kO43aDIjqyHOF94KH1rQ6o.gif", video: "https://vimeo.com/1243347258", poster: IMG + "Qhfhynkohnsrqb1oLqsgrvNtI.jpg",
+      cover: IMG + "1Q4S8kO43aDIjqyHOF94KH1rQ6o.mp4", video: "https://vimeo.com/1243347258", poster: IMG + "Qhfhynkohnsrqb1oLqsgrvNtI.jpg",
       goal: "Поддержать запуск нового продукта на рынок",
       task: "Смоделировать 3D-модель сервера по фото и выстроить визуальный сторителлинг под озвучку",
       time: "6 недель производства",
@@ -204,7 +204,7 @@ window.SITE = {
     {
       name: "Ребрендинг", slug: "rebrand", title: "Ребрендинг Solar",
       sub: "3D-стиль, видеогайд и motion kit для нового бренда Solar. О ребрендинге писал Sostav: «На стороне добра и света»: ONY обновили айдентику для «Солара».",
-      cover: IMG + "vmJ2z8vRzs09DCQGpuDuTR3eAkw.gif", video: "https://vimeo.com/1242383958", poster: IMG + "2jJYkWRWicE60V2nMba4qWsZBH4.jpg",
+      cover: IMG + "vmJ2z8vRzs09DCQGpuDuTR3eAkw.mp4", video: "https://vimeo.com/1242383958", poster: IMG + "2jJYkWRWicE60V2nMba4qWsZBH4.jpg",
       goal: "Разработать 3D-стиль нового бренда, подготовить видеогайд на основе нового визуала и создать шаблоны",
       task: "Перевести новую айдентику в 3D: материалы, свет, сцены и правила движения; собрать видеогайд по визуальному языку бренда; разработать шаблоны и motion kit для типовых задач; выстроить общий процесс работы команды в SolarBoard",
       time: "3 месяца",
