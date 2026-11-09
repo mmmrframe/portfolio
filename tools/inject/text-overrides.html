@@ -1,0 +1,4 @@
+<script id="text-overrides">(function(){var MAP={"Объединяю моушен- и дизайн-команды в сообщество для обмена опытом и практиками работы с AI.":"Объединяю моушен- и дизайн-команды в сообщество для обмена опытом и практиками работы с AI."};
+function fix(root){var w=document.createTreeWalker(root||document.body,NodeFilter.SHOW_TEXT),n;while(n=w.nextNode()){var v=MAP[n.nodeValue];if(v!==undefined)n.nodeValue=v}}
+function start(){fix();new MutationObserver(function(ms){for(var i=0;i<ms.length;i++){var m=ms[i];if(m.type==="characterData"){var v=MAP[m.target.nodeValue];if(v!==undefined)m.target.nodeValue=v}else for(var j=0;j<m.addedNodes.length;j++){var a=m.addedNodes[j];if(a.nodeType===3){var v2=MAP[a.nodeValue];if(v2!==undefined)a.nodeValue=v2}else if(a.nodeType===1)fix(a)}}}).observe(document.body,{childList:true,subtree:true,characterData:true})}
+if(document.body)start();else document.addEventListener("DOMContentLoaded",start)})();</script>

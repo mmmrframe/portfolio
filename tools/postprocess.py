@@ -5,8 +5,9 @@ Usage: python tools/postprocess.py <site_dir>
   2. hides the "Made in Framer" badge
   3. sets page titles and descriptions (tools/inject/titles.json), replaces the Framer favicon with the MeetMotion logo (tools/inject/favicon.html)
   4. puts the MeetMotion logo into the Meet Motion card via CSS (survives Framer re-render)
-  5. adds the on-page showreel player (tools/inject/showreel.html)
-  6. optimizes media: GIF -> animated WebP (800px, q72), PNG/JPG -> WebP (q82, max 2400px);
+  5. applies text edits made on GitHub (tools/inject/text-overrides.html: HTML + a guard against Framer re-render)
+  6. adds the on-page showreel player (tools/inject/showreel.html)
+  7. optimizes media: GIF -> animated WebP (800px, q72), PNG/JPG -> WebP (q82, max 2400px);
      animated covers keep a "?a.gif" suffix so the Framer hover override still treats them as GIFs
 """
 import re, sys, json, html, pathlib, subprocess
@@ -18,6 +19,7 @@ BADGE = (INJ / "hide-badge.html").read_text(encoding="utf-8").strip()
 FAV = (INJ / "favicon.html").read_text(encoding="utf-8").strip()
 TITLES = json.loads((INJ / "titles.json").read_text(encoding="utf-8"))
 MEET = (INJ / "meetmotion.html").read_text(encoding="utf-8").strip()
+TXT = (INJ / "text-overrides.html").read_text(encoding="utf-8").strip()
 REEL = (INJ / "showreel.html").read_text(encoding="utf-8").strip()
 IMG = SITE / "_media" / "images"
 
@@ -58,6 +60,9 @@ for h in SITE.rglob("*.html"):
     if "_media/favicon.png" not in s: s = s.replace("</head>", FAV + "</head>", 1)
     if 'id="meetmotion-card"' not in s and 'data-framer-name="Meet Motion"' in s: s = s.replace("</head>", MEET + "</head>", 1)
     if 'id="hide-framer-badge"' not in s: s = s.replace("</head>", BADGE + "</head>", 1)
+    m = re.search(r'var MAP=(\{.*?\});', TXT)
+    for old, new in json.loads(m.group(1)).items(): s = s.replace(old, new)
+    if 'id="text-overrides"' not in s: s = s.replace("</body>", TXT + "</body>", 1)
     if 'id="reel-js"' not in s: s = s.replace("</body>", REEL + "</body>", 1)
     h.write_text(s, encoding="utf-8")
 print("postprocess done:", len(ren), "media files converted")
