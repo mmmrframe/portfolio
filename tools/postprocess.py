@@ -10,7 +10,7 @@ Usage: python tools/postprocess.py <site_dir>
   7. optimizes media: GIF -> animated WebP (800px, q72), PNG/JPG -> WebP (q82, max 2400px);
      animated covers keep a "?a.gif" suffix so the Framer hover override still treats them as GIFs
 """
-import re, sys, json, html, pathlib, subprocess
+import re, sys, json, html, shutil, pathlib, subprocess
 from PIL import Image
 
 SITE = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else ".")
@@ -67,4 +67,9 @@ for h in SITE.rglob("*.html"):
     if 'id="talks-js"' not in s and '>Выступления<' in s: s = s.replace("</body>", TALKS + "</body>", 1)
     if 'id="reel-js"' not in s: s = s.replace("</body>", REEL + "</body>", 1)
     h.write_text(s, encoding="utf-8")
+# GitHub-only files (favicon, Meet Motion photo) live in tools/inject/assets and are copied into _media
+ASSETS = INJ / "assets"
+for src in ASSETS.rglob("*"):
+    if src.is_file():
+        dst = SITE / "_media" / src.relative_to(ASSETS); dst.parent.mkdir(parents=True, exist_ok=True); shutil.copy2(src, dst)
 print("postprocess done:", len(ren), "media files converted")
