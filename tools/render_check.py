@@ -2,7 +2,7 @@
 import sys, json, pathlib, threading, http.server, functools, socketserver
 from playwright.sync_api import sync_playwright
 ROOT = pathlib.Path(sys.argv[1]).resolve(); OUT = pathlib.Path(sys.argv[2]); OUT.mkdir(parents=True, exist_ok=True)
-pages = sys.argv[3:] or [""]
+pages = [("" if a == "home" else a) for a in sys.argv[3:]] or [""]
 serve = ROOT.parent / "_serve"; serve.mkdir(exist_ok=True)
 link = serve / "portfolio"
 if not link.exists(): link.symlink_to(ROOT, target_is_directory=True)
