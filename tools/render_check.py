@@ -25,11 +25,11 @@ def run_one(path, variant, out, q):
                 for i in INJ: body = re.sub(r'<script id="' + i + r'">.*?</script>', "", body, flags=re.S)
                 route.fulfill(response=r, body=body)
             pg.route(re.compile(r"localhost:8000/portfolio/.*(/|\.html)$"), strip)
-        pg.goto("http://localhost:8000/portfolio/" + path, wait_until="load", timeout=45000)
+        pg.goto(path if path.startswith("http") else "http://localhost:8000/portfolio/" + path, wait_until="load", timeout=45000)
         pg.wait_for_timeout(3000)
         for y in range(0, 12000, 900): pg.evaluate(f"window.scrollTo(0,{y})"); pg.wait_for_timeout(120)
         pg.wait_for_timeout(2500)
-        name = (path.strip("/").replace("/", "_") or "home") + "_" + variant
+        name = (re.sub(r"[^A-Za-z0-9]+", "_", path).strip("_") or "home") + "_" + variant
         pg.evaluate("window.scrollTo(0,0)"); pg.wait_for_timeout(500)
         pg.screenshot(path=str(out / f"{name}.jpg"), full_page=True, quality=55, type="jpeg", timeout=30000)
         b.close()
