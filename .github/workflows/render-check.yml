@@ -1,0 +1,27 @@
+name: Render check
+# Manual: renders a given commit of the site with real Framer scripts and saves screenshots to the render-check branch.
+on:
+  workflow_dispatch:
+    inputs:
+      ref: { description: "commit or branch", required: true, default: "main" }
+      pages: { description: "space-separated paths", required: false, default: "" }
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: tools-src }
+      - uses: actions/checkout@v4
+        with: { ref: "${{ inputs.ref }}", path: site }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - run: python tools-src/tools/render_check.py site out ${{ inputs.pages }}
+      - name: Save to render-check branch
+        run: |
+          cd out && git init -q -b render-check
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A && git commit -qm "render check ${{ inputs.ref }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" render-check
