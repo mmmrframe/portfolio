@@ -36,6 +36,16 @@ GitHub — основная версия. Не перезаписывать `mai
 Перед заменой убедиться, что все правки, сделанные только на GitHub, уже есть во Framer или в `tools/inject/`
 (файлы только для GitHub — в `tools/inject/assets/`, их копирует postprocess).
 
+## Проверка перед публикацией снимка
+
+Локально скрипты Framer не грузятся, поэтому зависания и ошибки видно только на серверах GitHub:
+Actions → «Render check» (REST: `gh api -X POST repos/mmmrframe/portfolio/actions/workflows/render-check.yml/dispatches
+-f ref=main -f "inputs[ref]=<ветка или полный SHA>" -f "inputs[pages]=home projects/ngfw/"`). Скриншоты и ошибки
+консоли появятся в ветке `render-check`. Новый снимок сначала пушить в тестовую ветку, проверять, и только потом в `main`.
+
+Урок 10.11.2026: скрипты, которые правят текст поверх Framer (MutationObserver), на новой сборке Framer
+повесили страницу. Текстовые правки делать во Framer, а на GitHub переносить снимком.
+
 ## Коммиты
 
 Сообщения коммитов заканчивать строками:
