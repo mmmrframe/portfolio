@@ -41,7 +41,7 @@ if __name__ == "__main__":
     serve(root); report = {}
     for path in pages:
         for variant in ("as-is", "stripped"):
-            q = mp.Queue(); pr = mp.Process(target=run_one, args=(path, variant, out, q)); pr.start(); pr.join(150)
+            q = mp.Queue(); pr = mp.Process(target=run_one, args=(path, variant, out, q)); pr.start(); pr.join(100)
             if pr.is_alive(): pr.kill(); report[f"{path or '/'} [{variant}]"] = "HUNG (page did not respond in 150s)"
             else: report[f"{path or '/'} [{variant}]"] = q.get() if not q.empty() else f"exit {pr.exitcode}"
             print(f"{path or '/'} [{variant}]:", json.dumps(report[f'{path or "/"} [{variant}]'], ensure_ascii=False)[:1500], flush=True)

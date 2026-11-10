@@ -10,7 +10,7 @@ Usage: python tools/postprocess.py <site_dir>
   7. optimizes media: GIF -> animated WebP (800px, q72), PNG/JPG -> WebP (q82, max 2400px);
      animated covers keep a "?a.gif" suffix so the Framer hover override still treats them as GIFs
 """
-import re, sys, json, html, shutil, pathlib, subprocess
+import os, re, sys, json, html, shutil, pathlib, subprocess
 from PIL import Image
 
 SITE = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else ".")
@@ -24,8 +24,9 @@ TALKS = (INJ / "talks.html").read_text(encoding="utf-8").strip()
 REEL = (INJ / "showreel.html").read_text(encoding="utf-8").strip()
 IMG = SITE / "_media" / "images"
 
+SKIP = set(filter(None, os.environ.get("PP_SKIP", "").split(",")))  # debug: media,vimeo,titles,head,body
 ren = {}
-if IMG.exists():
+if IMG.exists() and "media" not in SKIP:
     for f in sorted(IMG.iterdir()):
         ext, before = f.suffix.lower(), f.stat().st_size
         if ext == ".gif":
@@ -47,20 +48,22 @@ if IMG.exists():
 
 for h in SITE.rglob("*.html"):
     s = h.read_text(encoding="utf-8")
-    s = s.replace("https://vimeo.com/76979871", "https://vimeo.com/330892454")
+    if "vimeo" not in SKIP: s = s.replace("https://vimeo.com/76979871", "https://vimeo.com/330892454")
     s = re.sub(r'<script[^>]*src="https://(?:events\.framer\.com|framer\.com/edit)[^"]*"[^>]*>\s*</script>', "", s)
     s = re.sub(r'_media/images/([A-Za-z0-9_-]+\.(?:gif|png|jpe?g))', lambda m: "_media/images/" + ren.get(m.group(1), m.group(1)), s)
     key = str(h.parent.relative_to(SITE)).replace("\\", "/").strip(".")
-    if key in TITLES:
+    if key in TITLES and "titles" not in SKIP:
         t = TITLES[key] if key == "" else TITLES[key] + TITLES["_suffix"]
         t, d = html.escape(t, quote=True), html.escape(TITLES["_description"], quote=True)
         s = re.sub(r"<title>[^<]*</title>", f"<title>{t}</title>", s, count=1)
         s = re.sub(r'(<meta (?:property|name)="(?:og:title|twitter:title)" content=")[^"]*"', lambda m: m.group(1) + t + '"', s)
         s = re.sub(r'(<meta (?:property|name)="(?:description|og:description|twitter:description)" content=")[^"]*"', lambda m: m.group(1) + d + '"', s)
+    if "head" in SKIP: h.write_text(s, encoding="utf-8"); continue
     s = re.sub(r'<link[^>]*href="https://framerusercontent\.com/sites/icons/[^"]*"[^>]*>', "", s)
     if "_media/favicon.png" not in s: s = s.replace("</head>", FAV + "</head>", 1)
     if 'id="meetmotion-card"' not in s and 'data-framer-name="Meet Motion"' in s: s = s.replace("</head>", MEET + "</head>", 1)
     if 'id="hide-framer-badge"' not in s: s = s.replace("</head>", BADGE + "</head>", 1)
+    if "body" in SKIP: h.write_text(s, encoding="utf-8"); continue
     m = re.search(r'var MAP=(\{.*?\});', TXT)
     for old, new in json.loads(m.group(1)).items(): s = s.replace(old, new)
     if 'id="text-overrides"' not in s: s = s.replace("</body>", TXT + "</body>", 1)
