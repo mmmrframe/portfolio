@@ -3,7 +3,8 @@
 function modal(){var m=document.getElementById("reel-modal");if(m)return m;m=document.createElement("div");m.id="reel-modal";m.setAttribute("role","dialog");m.setAttribute("aria-label","Шоурил");
 m.innerHTML='<button class="x" type="button" aria-label="Закрыть">×</button><div class="box"></div>';document.body.appendChild(m);
 m.addEventListener("click",function(e){if(e.target===m||e.target.closest(".x"))close()});return m}
-function open(){var m=modal();m.querySelector(".box").innerHTML='<iframe src="'+SRC+'" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Шоурил"></iframe>';m.classList.add("on");document.documentElement.style.overflow="hidden"}
+function open(){var m=modal();if(m.classList.contains("on"))return;m.querySelector(".box").innerHTML='<iframe src="'+SRC+'" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" title="Шоурил"></iframe>';m.classList.add("on");document.documentElement.style.overflow="hidden"}
 function close(){var m=document.getElementById("reel-modal");if(!m)return;m.classList.remove("on");m.querySelector(".box").innerHTML="";document.documentElement.style.overflow=""}
 document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest('a[href*="vimeo.com/76979871"],a[href*="vimeo.com/330892454"]');if(!a)return;e.preventDefault();e.stopImmediatePropagation();open()},true);
+var RE=/vimeo\.com\/(?:video\/)?(?:330892454|76979871)/,_wo=window.open;window.open=function(u){if(u&&RE.test(String(u))){open();return null}return _wo.apply(window,arguments)};
 document.addEventListener("keydown",function(e){if(e.key==="Escape")close()})})();</script>
