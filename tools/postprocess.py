@@ -5,7 +5,7 @@ Usage: python tools/postprocess.py <site_dir>
   2. hides the "Made in Framer" badge
   3. sets page titles and descriptions (tools/inject/titles.json), replaces the Framer favicon with the MeetMotion logo (tools/inject/favicon.html)
   4. puts the MeetMotion logo into the Meet Motion card via CSS (survives Framer re-render)
-  5. applies text edits made on GitHub (tools/inject/text-overrides.html: HTML + a guard against Framer re-render)
+  5. (retired) text-override scripts are removed: text edits now go to Framer as well
   6. adds the on-page showreel player (tools/inject/showreel.html)
   7. optimizes media: GIF -> animated WebP (800px, q72), PNG/JPG -> WebP (q82, max 2400px);
      animated covers keep a "?a.gif" suffix so the Framer hover override still treats them as GIFs
@@ -64,10 +64,9 @@ for h in SITE.rglob("*.html"):
     if 'id="meetmotion-card"' not in s and 'data-framer-name="Meet Motion"' in s: s = s.replace("</head>", MEET + "</head>", 1)
     if 'id="hide-framer-badge"' not in s: s = s.replace("</head>", BADGE + "</head>", 1)
     if "body" in SKIP: h.write_text(s, encoding="utf-8"); continue
-    m = re.search(r'var MAP=(\{.*?\});', TXT)
-    for old, new in json.loads(m.group(1)).items(): s = s.replace(old, new)
-    if 'id="text-overrides"' not in s: s = s.replace("</body>", TXT + "</body>", 1)
-    if 'id="talks-js"' not in s and '>Выступления<' in s: s = s.replace("</body>", TALKS + "</body>", 1)
+    # text-overrides / talks scripts are retired: their content is in Framer now, and with the
+    # 10.11.2026 Framer build they froze the page. Strip them if an old copy is present.
+    s = re.sub(r'<script id="(?:text-overrides|talks-js)">.*?</script>', "", s, flags=re.S)
     if 'id="reel-js"' not in s: s = s.replace("</body>", REEL + "</body>", 1)
     h.write_text(s, encoding="utf-8")
 # GitHub-only files (favicon, Meet Motion photo) live in tools/inject/assets and are copied into _media
