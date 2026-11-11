@@ -34,7 +34,7 @@ with sync_playwright() as p:
         if path in seen: continue
         seen.add(path)
         print("page", path)
-        pg.goto(SITE + path + ("?" if "?" not in path else "&") + "nocache=" + str(__import__("time").time_ns()), wait_until="networkidle", timeout=90000)
+        pg.goto(SITE + path, wait_until="networkidle", timeout=90000)
         for _ in range(40):  # scroll so lazy content loads
             pg.mouse.wheel(0, 900); pg.wait_for_timeout(120)
         pg.wait_for_timeout(1500)
