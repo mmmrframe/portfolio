@@ -7,7 +7,7 @@ Usage: python tools/postprocess.py <site_dir>
   4. puts the MeetMotion logo into the Meet Motion card via CSS (survives Framer re-render)
   5. (retired) text-override scripts are removed: text edits now go to Framer as well
   6. adds the on-page showreel player (tools/inject/showreel.html)
-  7. optimizes media: GIF -> animated WebP (800px, q72), PNG/JPG -> WebP (q82, max 2400px);
+  7. optimizes media: GIF -> animated WebP (800px, q72, max 12 fps), PNG/JPG -> WebP (q82, max 2400px);
      animated covers keep a "?a.gif" suffix so the Framer hover override still treats them as GIFs
 """
 import os, re, sys, json, html, shutil, pathlib, subprocess
@@ -30,8 +30,14 @@ if IMG.exists() and "media" not in SKIP:
     for f in sorted(IMG.iterdir()):
         ext, before = f.suffix.lower(), f.stat().st_size
         if ext == ".gif":
-            out = f.with_suffix(".webp"); w = Image.open(f).size[0]
-            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(f), "-vf", f"scale={min(w, 800)}:-1:flags=lanczos",
+            out = f.with_suffix(".webp"); g = Image.open(f); w = g.size[0]
+            durs = []
+            try:
+                for i in range(min(getattr(g, "n_frames", 1), 60)): g.seek(i); durs.append(g.info.get("duration", 80) or 80)
+            except EOFError: pass
+            fps = 1000 / (sum(durs) / len(durs)) if durs else 12
+            vf = (f"fps=12," if fps > 13 else "") + f"scale={min(w, 800)}:-1:flags=lanczos"
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(f), "-vf", vf,
                             "-c:v", "libwebp_anim", "-lossless", "0", "-q:v", "72", "-compression_level", "6", "-loop", "0", str(out)], check=True)
             ren[f.name] = out.name + "?a.gif"
         elif ext in (".png", ".jpg", ".jpeg"):
