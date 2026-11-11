@@ -1,0 +1,52 @@
+{
+ "/ [as-is]": [
+  "error: Not allowed to load local resource: blob:https://mrframe.framer.website/073e199c-067c-4516-9c4e-64909ef4c6d7",
+  "error: Not allowed to load local resource: blob:https://mrframe.framer.website/a2b218d9-b350-49c2-b84d-b3c94d1414f1",
+  "error: Not allowed to load local resource: blob:https://mrframe.framer.website/c45a62b5-7cd2-4b4a-ba3a-4b8ef0d44866",
+  "error: Not allowed to load local resource: blob:https://mrframe.framer.website/8504bc56-0887-49a2-bcdb-6025c9827b33",
+  "error: Not allowed to load local resource: blob:https://mrframe.framer.website/9da84f41-6be2-455f-adbc-bd0304c89aca",
+  "error: Not allowed to load local resource: blob:https://mrframe.framer.website/a2a14fe6-3e55-4dd4-817a-aeb807b3c097",
+  "error: Framing 'https://framer.com/' violates the following Content Security Policy directive: \"frame-ancestors mrframe.framer.website\". The request has been blocked.\n",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "covers: {\"stills\": 6, \"animSrc\": [\"PhuKiixacrvoDYLCESuRNQ3w.webp?width=956&\"]}"
+ ],
+ "/ [stripped]": [
+  "error: Not allowed to load local resource: blob:https://mrframe.framer.website/073e199c-067c-4516-9c4e-64909ef4c6d7",
+  "error: Not allowed to load local resource: blob:https://mrframe.framer.website/a2b218d9-b350-49c2-b84d-b3c94d1414f1",
+  "error: Not allowed to load local resource: blob:https://mrframe.framer.website/c45a62b5-7cd2-4b4a-ba3a-4b8ef0d44866",
+  "error: Not allowed to load local resource: blob:https://mrframe.framer.website/8504bc56-0887-49a2-bcdb-6025c9827b33",
+  "error: Not allowed to load local resource: blob:https://mrframe.framer.website/9da84f41-6be2-455f-adbc-bd0304c89aca",
+  "error: Not allowed to load local resource: blob:https://mrframe.framer.website/a2a14fe6-3e55-4dd4-817a-aeb807b3c097",
+  "error: Framing 'https://framer.com/' violates the following Content Security Policy directive: \"frame-ancestors mrframe.framer.website\". The request has been blocked.\n",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "covers: {\"stills\": 6, \"animSrc\": [\"PhuKiixacrvoDYLCESuRNQ3w.webp?width=956&\"]}"
+ ],
+ "projects/click-lab/ [as-is]": [
+  "error: Framing 'https://framer.com/' violates the following Content Security Policy directive: \"frame-ancestors mrframe.framer.website\". The request has been blocked.\n",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "covers: {\"stills\": 0, \"animSrc\": [\"N7iCJigzdcq8kNwOD7vUqb3m54.webp\", \"hCml7pZjIii9CkXtZqDfOcotZRI.webp\"]}"
+ ],
+ "projects/click-lab/ [stripped]": [
+  "error: Framing 'https://framer.com/' violates the following Content Security Policy directive: \"frame-ancestors mrframe.framer.website\". The request has been blocked.\n",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "warning: Caught a recoverable error. The site is still functional, but might have some UI flickering or degraded page load performance. If you are the author of this website, update external components and check recently added custom code or code overrides to fix the following server/client mismatch",
+  "covers: {\"stills\": 0, \"animSrc\": [\"N7iCJigzdcq8kNwOD7vUqb3m54.webp\", \"hCml7pZjIii9CkXtZqDfOcotZRI.webp\"]}"
+ ]
+}
