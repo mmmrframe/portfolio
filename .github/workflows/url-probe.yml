@@ -1,0 +1,15 @@
+name: URL probe
+# Manual: downloads URLs and reports size, content type and number of animation frames (WebP ANMF / GIF frames).
+on:
+  workflow_dispatch:
+    inputs:
+      urls: { description: "space-separated URLs", required: true }
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: |
+          for u in ${{ inputs.urls }}; do
+            curl -sSL -o f.bin -w "%{http_code} %{content_type} %{size_download}" "$u"; echo -n " frames(webp ANMF)=$(grep -c -a ANMF f.bin) gifframes=$(grep -c -a $'\x2c\x00\x00' f.bin)  $u"; echo
+          done
