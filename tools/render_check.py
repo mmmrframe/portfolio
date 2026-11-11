@@ -29,6 +29,8 @@ def run_one(path, variant, out, q):
         pg.wait_for_timeout(3000)
         for y in range(0, 12000, 900): pg.evaluate(f"window.scrollTo(0,{y})"); pg.wait_for_timeout(120)
         pg.wait_for_timeout(2500)
+        stat = pg.evaluate("""() => { const im=[...document.images]; return { stills: im.filter(i=>i.src.startsWith('blob:')).length, animSrc: im.filter(i=>/\\.(gif|webp)(\\?|$)/i.test(i.src)).map(i=>i.src.split('/').pop().slice(0,40)).slice(0,10) } }""")
+        logs.append("covers: " + json.dumps(stat))
         name = (re.sub(r"[^A-Za-z0-9]+", "_", path).strip("_") or "home") + "_" + variant
         pg.evaluate("window.scrollTo(0,0)"); pg.wait_for_timeout(500)
         pg.screenshot(path=str(out / f"{name}.jpg"), full_page=True, quality=55, type="jpeg", timeout=30000)
