@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - run: pip install playwright && python -m playwright install chromium && (timeout 300 sudo python -m playwright install-deps chromium || echo "deps install skipped")
       - run: python tools/download_framer_site.py
       - uses: actions/upload-artifact@v4
         with:

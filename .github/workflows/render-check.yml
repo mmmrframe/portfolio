@@ -18,7 +18,7 @@ jobs:
         with: { ref: "${{ inputs.ref }}", path: site }
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: pip install playwright && python -m playwright install --with-deps chromium
+      - run: pip install playwright && python -m playwright install chromium && (timeout 300 sudo python -m playwright install-deps chromium || echo "deps install skipped")
       - run: python tools-src/tools/render_check.py site out ${{ inputs.pages }}
       - name: Save to render-check branch
         run: |
